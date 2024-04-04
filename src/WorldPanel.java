@@ -1,13 +1,19 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import javax.swing.JPanel;
+import java.awt.Graphics;
+import java.awt.Rectangle;
+import java.awt.event.KeyEvent;
 
 
-class WorldPanel extends JPanel implements MouseListener {
+class WorldPanel extends JPanel implements MouseListener, KeyListener {
     private ArrayList<Weapon> inventory;
     private Rectangle button;
+
     public WorldPanel(ArrayList<Weapon> inventory) {
         this.inventory = inventory;
         button = new Rectangle(297, 150, 160, 26);
