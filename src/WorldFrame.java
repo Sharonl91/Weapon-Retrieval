@@ -1,6 +1,6 @@
 import javax.swing.JFrame;
 
-import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 
 public class WorldFrame extends JFrame implements Runnable {
@@ -11,8 +11,8 @@ public class WorldFrame extends JFrame implements Runnable {
 
     public WorldFrame(String display) {
         super(display);
-        int frameWidth = 1000;
-        int frameHeight = 500;
+        int frameWidth = 800;
+        int frameHeight = 800;
         inventory = Weapon.buildInv();
         p = new WorldPanel(inventory);
         this.add(p);

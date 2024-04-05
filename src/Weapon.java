@@ -8,16 +8,22 @@ import java.awt.Rectangle;
 public class Weapon {
     private String rarity;
     private String name;
+    private int hp;
+    private int atk;
+    private int def;
     private String imageFileName;
     private String backImageFileName;
     private boolean show;
     private BufferedImage image;
     private Rectangle cardBox;
 
-    public Weapon(String rarity, String name) {
+    public Weapon(String rarity, String name, int hp, int atk, int def) {
         this.rarity = rarity;
         this.name = name;
-        this.imageFileName = "images/card_"+rarity+"_"+name+".png";
+        this.hp = hp;
+        this.atk = atk;
+        this.def = def;
+        this.imageFileName = "images/card_"+rarity+"_"+name+"_"+hp+"_"+atk+"_"+def+".png";
         this.show = true;
         this.backImageFileName = "images/card_back.png";
         this.image = readImage();
@@ -31,6 +37,10 @@ public class Weapon {
     public String getRarity() {
         return rarity;
     }
+    public int getHp() {return hp;}
+
+    public int getAtk() {return atk;}
+    public int getDef() {return def;}
 
     public void setRectangleLocation(int x, int y) {
         cardBox.setLocation(x, y);
@@ -45,8 +55,7 @@ public class Weapon {
     }
 
     public String toString() {
-        return rarity + " " + name
-                ;
+        return rarity + " " + name;
     }
 
     public void flipCard() {
