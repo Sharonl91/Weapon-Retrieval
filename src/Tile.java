@@ -9,19 +9,11 @@ public class Tile {
     private final String shade = "background/floor.png";
     private final String wall = "background/floor.png";
     private boolean path;
-
     private boolean visible;
-    public void setVisible() {
-        visible = true;
-    }
 
-    public boolean isVisible() {
-        return visible;
-    }
-    public Tile(int tileType) {
+    public Tile(int tileType){
         this.tileType = tileType;
-
-        if (tileType == 0 || tileType == 2) {
+        if(tileType == 0 || tileType == 2) {
             path = true;
         }
         else {
@@ -29,8 +21,16 @@ public class Tile {
         }
         visible = false;
         this.setTileType(tileType);
-
     }
+
+    public void setVisible() {
+        visible = true;
+    }
+
+    public boolean isVisible() {
+        return visible;
+    }
+
     public void setTileType(int tileType) {
         this.tileType = tileType;
         if (tileType == 0) {
@@ -43,9 +43,11 @@ public class Tile {
             image = loadImage(shade);
         }
     }
+
     public int getTileType(){
         return tileType;
     }
+
     public BufferedImage loadImage(String fileName) {
         try {
             BufferedImage image;
@@ -56,6 +58,10 @@ public class Tile {
             System.out.println(e);
             return null;
         }
+    }
+    public void setPath(){
+        path = true;
+        setTileType(this.tileType);
     }
     public BufferedImage getImage() {
         return image;

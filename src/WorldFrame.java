@@ -11,8 +11,8 @@ public class WorldFrame extends JFrame implements Runnable {
 
     public WorldFrame(String display) {
         super(display);
-        int frameWidth = 800;
-        int frameHeight = 800;
+        int frameWidth = 1000;
+        int frameHeight = 1000;
         inventory = Weapon.buildInv();
         p = new WorldPanel(inventory);
         this.add(p);

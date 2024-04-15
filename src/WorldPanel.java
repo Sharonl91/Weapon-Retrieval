@@ -11,48 +11,31 @@ import java.awt.event.KeyEvent;
 
 class WorldPanel extends JPanel implements MouseListener, KeyListener {
     private ArrayList<Weapon> inventory;
-    private Rectangle button;
+    private Rectangle start;
+    private Rectangle save;
+    private Rectangle load;
 
     public WorldPanel(ArrayList<Weapon> inventory) {
         this.inventory = inventory;
-        button = new Rectangle(297, 150, 160, 26);
+        start = new Rectangle(150, 100, 200, 30);
+        save = new Rectangle(350, 100, 200, 30);
+        load = new Rectangle(550, 100, 200, 30);
         this.addMouseListener(this);
+        this.addKeyListener(this);
+        this.setFocusable(true);
     }
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        int x = 30;
-        int y = 30;
-        for (int i = 0; i < inventory.size(); i++) {
-            Weapon w = inventory.get(i);
-            if (i % 3 == 0 && i != 0) {
-                x = 30;
-                y += 80;
-            }
-
-            w.setRectangleLocation(x, y);
-            g.drawImage(w.getImage(), x, y, null);
-            x = x + w.getImage().getWidth() + 10;
-        }
-        g.setFont(new Font("Courier New", Font.BOLD, 20));
-        g.drawString("GET NEW CARDS", 300, 170);
-        g.drawRect((int)button.getX(), (int)button.getY(), (int)button.getWidth(), (int)button.getHeight());
+        g.setFont(new Font("Courier New", Font.BOLD, 25));
+        g.drawString("Start game!", 170, 123);
+        g.drawRect((int)start.getX(), (int)start.getY(), (int)start.getWidth(), (int)start.getHeight());
+        g.drawString("Save game!", 380, 123);
+        g.drawRect((int)save.getX(), (int)save.getY(), (int)save.getWidth(), (int)save.getHeight());
+        g.drawString("Load game!", 580, 123);
+        g.drawRect((int)load.getX(), (int)load.getY(), (int)load.getWidth(), (int)load.getHeight());
     }
     public void mousePressed(MouseEvent e) {
         Point clicked = e.getPoint();
-        if (e.getButton() == 1) {
-            if (button.contains(clicked)) {
-                Weapon.obtainWeapon();
-            }
-
-            for (int i = 0; i < inventory.size(); i++) {
-                Rectangle box = inventory.get(i).getCardBox();
-            }
-        }
-        if (e.getButton() == 3) {
-            for (int i = 0; i < inventory.size(); i++) {
-                Rectangle box = inventory.get(i).getCardBox();
-            }
-        }
     }
 
     public void mouseReleased(MouseEvent e) { }
