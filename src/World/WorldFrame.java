@@ -1,20 +1,21 @@
+package World;
+
+import World.WorldPanel;
+
 import javax.swing.JFrame;
 
-import java.awt.*;
 import java.util.ArrayList;
 
 public class WorldFrame extends JFrame implements Runnable {
 
     private WorldPanel p;
-    private ArrayList<Weapon> inventory;
     private Thread windowThread;
 
     public WorldFrame(String display) {
         super(display);
         int frameWidth = 1000;
         int frameHeight = 1000;
-        inventory = Weapon.buildInv();
-        p = new WorldPanel(inventory);
+        p = new WorldPanel();
         this.add(p);
         this.addKeyListener(p);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -1,4 +1,5 @@
-import java.awt.*;
+import World.Tile;
+
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.io.File;
@@ -49,8 +50,9 @@ public class Dungeon {
                 s.setRow(currentCol + 1);
             }
         }
-
+        setVisibility();
     }
+
     private int[][] getWorld(String fileName) {
         File f = new File(fileName);
         Scanner s = null;
@@ -79,6 +81,7 @@ public class Dungeon {
                 }
             }
         }
+        setVisibility();
         return worldData;
     }
     private void setVisibility() {
