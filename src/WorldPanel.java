@@ -1,5 +1,3 @@
-package World;
-
 import java.awt.*;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -11,6 +9,7 @@ import java.awt.event.KeyEvent;
 
 
 class WorldPanel extends JPanel implements MouseListener, KeyListener {
+    private Dungeon d;
     private Rectangle start;
     private Rectangle save;
     private Rectangle load;
@@ -22,6 +21,7 @@ class WorldPanel extends JPanel implements MouseListener, KeyListener {
         this.addMouseListener(this);
         this.addKeyListener(this);
         this.setFocusable(true);
+        d = new Dungeon();
     }
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -33,9 +33,13 @@ class WorldPanel extends JPanel implements MouseListener, KeyListener {
         g.drawString("Load game!", 580, 123);
         g.drawRect((int)load.getX(), (int)load.getY(), (int)load.getWidth(), (int)load.getHeight());
     }
+    public int getX(){
+        return Rectangle.OUT_LEFT;
+    }
+    public int getY(){
+        return Rectangle.OUT_TOP;
+    }
     public void mousePressed(MouseEvent e) {
-
-        Point clicked = e.getPoint();
     }
 
     public void mouseReleased(MouseEvent e) { }
@@ -45,16 +49,16 @@ class WorldPanel extends JPanel implements MouseListener, KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
-
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
-
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
+    }
 
+    private class Bag {
     }
 }

@@ -10,18 +10,18 @@ public class Monster {
     private int row;
     private int column;
     private final String easy = "Monster/goblin.png";
-    private final String medium = "Monster/goblin.png";
-    private final String hard = "Monster/goblin.png";
+    private final String medium = "Monster/wolf.png";
+    private final String hard = "Monster/wendigo.png";
     public Monster(){
         row = (int)(Math.random() * 20);
         column = (int)(Math.random() * 14);
+        generateMonster();
     }
 
     private void generateMonster() {
         int ran = (int) (Math.random() * 6) + 1;
         if (ran == 1 || ran == 2 || ran == 3 ) {
             loadImage(easy);
-            b.getInv().
         }
         if (ran == 4 || ran == 5) {
             loadImage(medium);
@@ -53,6 +53,19 @@ public class Monster {
 
     public BufferedImage getImage() {
         return image;
+    }
+
+    public void setRow(int row) {
+        this.row = row;
+    }
+
+    public void setColumn(int column) {
+        this.column = column;
+    }
+
+    @Override
+    public String toString() {
+        return "Monster{" + ", row=" + row + ", column=" + column + '}';
     }
 
     public Swordmaster getS() {

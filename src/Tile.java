@@ -1,5 +1,3 @@
-package World;
-
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -17,7 +15,6 @@ public class Tile {
         this.tileType = tileType;
         if(tileType == 0 || tileType == 2) {
             path = true;
-            this.visible = true;
         }
         else {
             path = false;
@@ -62,6 +59,11 @@ public class Tile {
             return null;
         }
     }
+
+    public boolean isPath() {
+        return path;
+    }
+
     public void setPath(){
         path = true;
         setTileType(tileType);

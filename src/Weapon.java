@@ -5,7 +5,7 @@ import java.awt.Rectangle;
 
 public class Weapon{
     private String name;
-    private ArrayList<Weapon> inv;
+    private ArrayList inv;
     private String rarity;
     private int amount;
     private boolean show;
@@ -34,11 +34,11 @@ public class Weapon{
         return rarity + " " + name;
     }
 
-    public static ArrayList<Weapon> obtainWeapon() {
-        inv.remove(Mo)
-        return inv;
+    public void obtainWeapon() {
+        inv.add(name);
+
     }
-    public static ArrayList<Weapon> getInv(ArrayList<Weapon> inv){
+    public ArrayList<Weapon> getInv(ArrayList inv){
         return inv;
     }
 }

@@ -1,7 +1,3 @@
-package World;
-
-import World.WorldPanel;
-
 import javax.swing.JFrame;
 
 import java.util.ArrayList;

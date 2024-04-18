@@ -1,5 +1,3 @@
-import World.Tile;
-
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.io.File;
@@ -13,12 +11,12 @@ public class Dungeon {
         gameEnded = false;
     }
     public void createDungeon(){
-        int[][]map = getWorld("background/map");
+        int[][] map = getWorld("background/map");
         dungeon = new Tile[14][22];
-        for (int r = 0; r < dungeon.length; r++) {
-            for (int c = 0; c < dungeon[0].length; c++) {
-                Tile t = new Tile(map[r][c]);
-                dungeon[r][c] = t;
+        for (int r = 0; r < map.length; r++) {
+            for (int c = 0; c < map[0].length; c++) {
+                Tile t = new Tile(dungeon[r][c].getTileType());
+                map[r][c] = t.getTileType();
             }
         }
         setVisibility();
@@ -76,12 +74,15 @@ public class Dungeon {
         for (int i = 0; i < fileData.size(); i++) {
             String d = fileData.get(i);
             for (int j = 0; j < d.length(); j++) {
-                if (d.charAt(j) == 'S') {
-                    this.s = new Swordmaster(i, j);
+                if (d.charAt(j) == 1)
+                    worldData[i][j] = 1;
+                if (d.charAt(j) == 0)
+                    worldData[i][j] = 0;
+                if (d.charAt(j) == 2) {
+                    worldData[i][j] = 2;
                 }
             }
         }
-        setVisibility();
         return worldData;
     }
     private void setVisibility() {
