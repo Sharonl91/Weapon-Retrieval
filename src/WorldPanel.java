@@ -2,14 +2,14 @@ import java.awt.*;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import javax.swing.JPanel;
+import javax.swing.*;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 
 
 class WorldPanel extends JPanel implements MouseListener, KeyListener {
-    private Dungeon d;
+    private Dungeon dungeon;
     private Rectangle start;
     private Rectangle save;
     private Rectangle load;
@@ -21,7 +21,7 @@ class WorldPanel extends JPanel implements MouseListener, KeyListener {
         this.addMouseListener(this);
         this.addKeyListener(this);
         this.setFocusable(true);
-        d = new Dungeon();
+        dungeon = new Dungeon();
     }
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -32,14 +32,27 @@ class WorldPanel extends JPanel implements MouseListener, KeyListener {
         g.drawRect((int)save.getX(), (int)save.getY(), (int)save.getWidth(), (int)save.getHeight());
         g.drawString("Load game!", 580, 123);
         g.drawRect((int)load.getX(), (int)load.getY(), (int)load.getWidth(), (int)load.getHeight());
-    }
-    public int getX(){
-        return Rectangle.OUT_LEFT;
-    }
-    public int getY(){
-        return Rectangle.OUT_TOP;
+        int x = 0;
+        int y = 0;
+
+        int playerRow = dungeon.getS().getRow();
+        int playerCol = dungeon.getS().getCol();
+
+        for (int row = 0; row < dungeon.getTiles().length; row++) {
+            for (int col = 0; col < dungeon.getTiles()[0].length; col++) {
+                if (row == playerRow && col == playerCol) {
+                    g.drawImage(dungeon.getS().getImage(), x+2, y+2, null);
+                }
+                x = x + 24;
+            }
+            x = 10;
+            y = y + 24;
+        }
     }
     public void mousePressed(MouseEvent e) {
+        if(start.contains(e.getPoint())){
+            JOptionPane.showMessageDialog(this, "Game Started!");
+        }
     }
 
     public void mouseReleased(MouseEvent e) { }
@@ -57,8 +70,5 @@ class WorldPanel extends JPanel implements MouseListener, KeyListener {
 
     @Override
     public void keyReleased(KeyEvent e) {
-    }
-
-    private class Bag {
     }
 }

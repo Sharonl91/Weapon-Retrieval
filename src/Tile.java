@@ -6,8 +6,8 @@ public class Tile {
     private BufferedImage image;
     private int tileType;
     private final String floor = "background/floor.png";
-    private final String shade = "background/floor.png";
-    private final String wall = "background/floor.png";
+    private final String shade = "background/shade.png";
+    private final String wall = "background/wall.png";
     private boolean path;
     private boolean visible;
 

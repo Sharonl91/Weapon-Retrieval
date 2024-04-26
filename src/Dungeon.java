@@ -6,21 +6,97 @@ public class Dungeon {
     private Tile[][] dungeon;
     private Swordmaster s;
     private boolean gameEnded;
+
     public Dungeon(){
         createDungeon();
         gameEnded = false;
     }
+
     public void createDungeon(){
-        int[][] map = getWorld("background/map");
-        dungeon = new Tile[14][22];
+        int[][] map = getMap("background/map");
+        dungeon = new Tile[16][22];
         for (int r = 0; r < map.length; r++) {
             for (int c = 0; c < map[0].length; c++) {
-                Tile t = new Tile(dungeon[r][c].getTileType());
-                map[r][c] = t.getTileType();
+                Tile t = new Tile(map[r][c]);
+                dungeon[r][c] = t;
+                //if dungeon[r][c] = null
+                if (!dungeon[r][c].isPath()) {
+                    dungeon[r][c].setTileType(2);
+                    }
+                }
+        }
+        highlightPath();
+    }
+
+    private int[][] getMap(String fileName) {
+        File f = new File(fileName);
+        Scanner a = null;
+        try {
+            a = new Scanner(f);
+        }
+        catch (FileNotFoundException e) {
+            System.out.println("File not found.");
+            System.exit(1);
+        }
+
+        ArrayList<String> fileData = new ArrayList<String>();
+        while (a.hasNextLine())
+            fileData.add(a.nextLine());
+
+        int rows = fileData.size();
+        int cols = fileData.getFirst().length();
+
+        int[][] worldData = new int[rows][cols];
+
+        for (int i = 0; i < fileData.size(); i++) {
+            String d = fileData.get(i);
+            for (int j = 0; j < d.length(); j++) {
+                if (d.charAt(j) == ',')
+                    worldData[i][j] = 1;
+                if (d.charAt(j) == '.')
+                    worldData[i][j] = 0;
+                if (d.charAt(j) == '/') {
+                    worldData[i][j] = 2;
+                }
+                if (d.charAt(j) == '$') {
+                    this.s = new Swordmaster(i, j);
+                }
             }
         }
-        setVisibility();
+        return worldData;
     }
+
+    private void highlightPath() {
+        boolean check = true;
+        while (check) {
+            for (Tile[] tiles : dungeon) {
+                for (int c = 0; c < dungeon[0].length; c++) {
+                    if (tiles[c].isPath()) {
+                        // Highlight the current tile
+                        tiles[c].setPath();
+                    }
+                }
+            }
+
+            // Check if any more tiles need to be highlighted
+            check = false;
+            for (int r = 0; r < dungeon.length; r++) {
+                for (int c = 0; c < dungeon[0].length; c++) {
+                    if (dungeon[r][c].isPath()) {
+                        // Check if any adjacent tiles are not part of the main path
+                        if ((r > 0 && !dungeon[r - 1][c].isPath()) ||
+                                (r < dungeon.length - 1 && !dungeon[r + 1][c].isPath()) ||
+                                (c > 0 && !dungeon[r][c - 1].isPath()) ||
+                                (c < dungeon[0].length - 1 && !dungeon[r][c + 1].isPath())) {
+                            check = true;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+
     public void move(String direction){
         int currentRow = s.getRow();
         int currentCol = s.getCol();
@@ -48,60 +124,10 @@ public class Dungeon {
                 s.setRow(currentCol + 1);
             }
         }
-        setVisibility();
+
     }
 
-    private int[][] getWorld(String fileName) {
-        File f = new File(fileName);
-        Scanner s = null;
-        try {
-            s = new Scanner(f);
-        }
-        catch (FileNotFoundException e) {
-            System.out.println("File not found.");
-            System.exit(1);
-        }
-
-        ArrayList<String> fileData = new ArrayList<String>();
-        while (s.hasNextLine())
-            fileData.add(s.nextLine());
-
-        int rows = fileData.size();
-        int cols = fileData.get(0).length();
-
-        int[][] worldData = new int[rows][cols];
-
-        for (int i = 0; i < fileData.size(); i++) {
-            String d = fileData.get(i);
-            for (int j = 0; j < d.length(); j++) {
-                if (d.charAt(j) == 1)
-                    worldData[i][j] = 1;
-                if (d.charAt(j) == 0)
-                    worldData[i][j] = 0;
-                if (d.charAt(j) == 2) {
-                    worldData[i][j] = 2;
-                }
-            }
-        }
-        return worldData;
-    }
-    private void setVisibility() {
-        int playerRow = s.getRow();
-        int playerColumn = s.getCol();
-
-        int topLeftRow = playerRow - 2;
-        int topLeftColumn = playerColumn - 2;
-
-        for (int i = topLeftRow; i <= topLeftRow+4; i++) {
-            for (int j = topLeftColumn; j <= topLeftColumn+4; j++) {
-                try {
-                    dungeon[i][j].setVisible();
-                }
-                catch (ArrayIndexOutOfBoundsException e) { }
-            }
-        }
-    }
-    public Tile[][] getTile(){
+    public Tile[][] getTiles(){
         return dungeon;
     }
 

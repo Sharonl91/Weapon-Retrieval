@@ -2,7 +2,6 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 public class Monster {
     Swordmaster s;
     Bag b;
@@ -66,9 +65,5 @@ public class Monster {
     @Override
     public String toString() {
         return "Monster{" + ", row=" + row + ", column=" + column + '}';
-    }
-
-    public Swordmaster getS() {
-        return s;
     }
 }

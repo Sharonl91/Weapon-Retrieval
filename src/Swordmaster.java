@@ -10,11 +10,13 @@ public class Swordmaster {
     private int column;
     private final String IMAGE_FILE = "Swordmaster/front.png";
     private ArrayList<Weapon> Inventory;
+
     public Swordmaster(int row, int col){
         this.row = row;
         this.column = col;
         image = loadImage(IMAGE_FILE);
     }
+
     public BufferedImage loadImage(String fileName) {
         try {
             BufferedImage image;
