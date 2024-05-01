@@ -44,7 +44,7 @@ public class Dungeon {
             fileData.add(a.nextLine());
 
         int rows = fileData.size();
-        int cols = fileData.getFirst().length();
+        int cols = fileData.get(0).length();
 
         int[][] worldData = new int[rows][cols];
 

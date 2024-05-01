@@ -25,6 +25,23 @@ class WorldPanel extends JPanel implements MouseListener, KeyListener {
     }
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+
+        int x = 100;
+        int y = 100;
+
+        int currentRow = dungeon.getS().getRow();
+        int currentCol = dungeon.getS().getCol();
+
+        for (int row = 0; row < dungeon.getTiles().length; row++) {
+            for (int col = 0; col < dungeon.getTiles()[0].length; col++) {
+                if (row == currentRow && col == currentCol) {
+                    g.drawImage(dungeon.getS().getImage(), x+10, y+10, null);
+                }
+                x = x + 24;
+            }
+            x = 10;
+            y = y + 24;
+        }
         g.setFont(new Font("Courier New", Font.BOLD, 25));
         g.drawString("Start game!", 170, 123);
         g.drawRect((int)start.getX(), (int)start.getY(), (int)start.getWidth(), (int)start.getHeight());
@@ -32,28 +49,9 @@ class WorldPanel extends JPanel implements MouseListener, KeyListener {
         g.drawRect((int)save.getX(), (int)save.getY(), (int)save.getWidth(), (int)save.getHeight());
         g.drawString("Load game!", 580, 123);
         g.drawRect((int)load.getX(), (int)load.getY(), (int)load.getWidth(), (int)load.getHeight());
-        int x = 0;
-        int y = 0;
 
-        int playerRow = dungeon.getS().getRow();
-        int playerCol = dungeon.getS().getCol();
-
-        for (int row = 0; row < dungeon.getTiles().length; row++) {
-            for (int col = 0; col < dungeon.getTiles()[0].length; col++) {
-                if (row == playerRow && col == playerCol) {
-                    g.drawImage(dungeon.getS().getImage(), x+2, y+2, null);
-                }
-                x = x + 24;
-            }
-            x = 10;
-            y = y + 24;
-        }
     }
-    public void mousePressed(MouseEvent e) {
-        if(start.contains(e.getPoint())){
-            JOptionPane.showMessageDialog(this, "Game Started!");
-        }
-    }
+    public void mousePressed(MouseEvent e) { }
 
     public void mouseReleased(MouseEvent e) { }
     public void mouseEntered(MouseEvent e) { }

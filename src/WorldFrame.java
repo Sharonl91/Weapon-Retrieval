@@ -9,13 +9,11 @@ public class WorldFrame extends JFrame implements Runnable {
 
     public WorldFrame(String display) {
         super(display);
-        int frameWidth = 1000;
-        int frameHeight = 1000;
         p = new WorldPanel();
         this.add(p);
         this.addKeyListener(p);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setSize(frameWidth, frameHeight);
+        this.setSize(1000, 1000);
         this.setLocation(10, 10);
         this.setVisible(true);
         startThread();
