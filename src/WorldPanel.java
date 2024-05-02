@@ -66,16 +66,16 @@ class WorldPanel extends JPanel implements MouseListener, KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         String direction = String.valueOf(e.getKeyChar());
-        if (direction == "w"){
+        if (direction.equals("w")){
             dungeon.move("w");
         }
-        if (direction == "a"){
+        if (direction.equals("a")){
             dungeon.move("a");
         }
-        if (direction == "s"){
+        if (direction.equals("s")){
             dungeon.move("s");
         }
-        if (direction == "d"){
+        if (direction.equals("d")){
             dungeon.move("d");
         }
     }
