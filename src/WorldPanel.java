@@ -37,9 +37,10 @@ class WorldPanel extends JPanel implements MouseListener, KeyListener {
                 if (row == currentRow && col == currentCol) {
                     g.drawImage(dungeon.getS().getImage(), x+10, y+10, null);
                 }
+
                 x = x + 24;
             }
-            x = 10;
+            x = 100;
             y = y + 24;
         }
         g.setFont(new Font("Courier New", Font.BOLD, 25));
@@ -64,6 +65,19 @@ class WorldPanel extends JPanel implements MouseListener, KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
+        String direction = String.valueOf(e.getKeyChar());
+        if (direction == "w"){
+            dungeon.move("w");
+        }
+        if (direction == "a"){
+            dungeon.move("a");
+        }
+        if (direction == "s"){
+            dungeon.move("s");
+        }
+        if (direction == "d"){
+            dungeon.move("d");
+        }
     }
 
     @Override

@@ -2,14 +2,13 @@ import java.util.ArrayList;
 
 public class Weapon{
     private String name;
-    private ArrayList inv;
+    private ArrayList<String> inv;
     private String rarity;
     private boolean show;
     Bag b;
 
     public Weapon(String name, String rarity) {
         this.name = name;
-        inv = b.getInv();
         this.rarity = rarity;
         this.show = true;
     }
@@ -27,11 +26,10 @@ public class Weapon{
     }
 
     public void obtainWeapon() {
-        inv.add(name);
-
-
+        inv.add(name + " " + rarity);
+        b.setInv();
     }
-    public ArrayList<Weapon> getInv(ArrayList<Weapon> inv){
+    public ArrayList<String> getInv(){
         return inv;
     }
 }

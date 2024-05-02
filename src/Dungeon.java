@@ -124,7 +124,10 @@ public class Dungeon {
                 s.setRow(currentCol + 1);
             }
         }
+    }
 
+    public void setGameEnded() {
+        gameEnded = true;
     }
 
     public Tile[][] getTiles(){

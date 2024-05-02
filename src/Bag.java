@@ -2,8 +2,9 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class Bag {
-    ArrayList<Weapon> inv;
+    ArrayList<String> inv;
     Rectangle bag;
+    Weapon w;
 
     public Bag(ArrayList i ){
         inv = i;
@@ -12,6 +13,10 @@ public class Bag {
 
     public ArrayList getInv() {
         return inv;
+    }
+
+    public void setInv() {
+        inv = w.getInv();
     }
 
     public Rectangle getBag() {
