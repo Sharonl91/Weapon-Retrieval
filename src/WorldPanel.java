@@ -13,6 +13,7 @@ class WorldPanel extends JPanel implements MouseListener, KeyListener {
     private Rectangle start;
     private Rectangle save;
     private Rectangle load;
+    private Swordmaster s;
 
     public WorldPanel() {
         start = new Rectangle(150, 100, 200, 30);
@@ -37,11 +38,14 @@ class WorldPanel extends JPanel implements MouseListener, KeyListener {
                 if (row == currentRow && col == currentCol) {
                     g.drawImage(dungeon.getS().getImage(), x+10, y+10, null);
                 }
-
                 x = x + 24;
             }
             x = 100;
             y = y + 24;
+        }
+        s.searchBag();
+        if(dungeon.isGameEnded()){
+            g.drawString("You have obtained the mythical weapon!! \n Yay -_-", 700, 150);
         }
         g.setFont(new Font("Courier New", Font.BOLD, 25));
         g.drawString("Start game!", 170, 123);

@@ -6,7 +6,7 @@ public class Bag {
     Rectangle bag;
     Weapon w;
 
-    public Bag(ArrayList i ){
+    public Bag(ArrayList<String> i ){
         inv = i;
         bag = new Rectangle(200,400,50,60);
     }

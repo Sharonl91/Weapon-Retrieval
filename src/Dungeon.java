@@ -130,6 +130,10 @@ public class Dungeon {
         gameEnded = true;
     }
 
+    public boolean isGameEnded() {
+        return gameEnded;
+    }
+
     public Tile[][] getTiles(){
         return dungeon;
     }
