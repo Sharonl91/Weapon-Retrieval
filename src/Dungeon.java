@@ -14,14 +14,16 @@ public class Dungeon {
 
     public void createDungeon(){
         int[][] map = getMap("background/map");
-        dungeon = new Tile[16][22];
+        dungeon = new Tile[map.length][map[0].length];
         for (int r = 0; r < map.length; r++) {
             for (int c = 0; c < map[0].length; c++) {
                 Tile t = new Tile(map[r][c]);
                 dungeon[r][c] = t;
+                dungeon[r][c].isPath();
                 //if dungeon[r][c] = null
                 if (!dungeon[r][c].isPath()) {
                     dungeon[r][c].setTileType(2);
+                    dungeon[r][c].isPath();
                     }
                 }
         }
@@ -74,10 +76,11 @@ public class Dungeon {
                     if (tiles[c].isPath()) {
                         // Highlight the current tile
                         tiles[c].setPath();
+                        tiles[c].setVisible();
+
                     }
                 }
             }
-
             // Check if any more tiles need to be highlighted
             check = false;
             for (int r = 0; r < dungeon.length; r++) {
@@ -89,6 +92,7 @@ public class Dungeon {
                                 (c > 0 && !dungeon[r][c - 1].isPath()) ||
                                 (c < dungeon[0].length - 1 && !dungeon[r][c + 1].isPath())) {
                             check = true;
+                            dungeon[r][c].setVisible();
                         }
                     }
                 }
@@ -104,6 +108,7 @@ public class Dungeon {
         if(direction.equalsIgnoreCase("W")){
             if(currentRow > 0){
                 s.setRow(currentRow - 1);
+
             }
         }
         //going down

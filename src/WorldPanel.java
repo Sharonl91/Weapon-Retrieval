@@ -9,7 +9,7 @@ import java.awt.event.KeyEvent;
 
 
 class WorldPanel extends JPanel implements MouseListener, KeyListener {
-    private Dungeon dungeon;
+    Dungeon dungeon;
     private Rectangle start;
     private Rectangle save;
     private Rectangle load;
@@ -22,26 +22,30 @@ class WorldPanel extends JPanel implements MouseListener, KeyListener {
         this.addMouseListener(this);
         this.addKeyListener(this);
         this.setFocusable(true);
-        dungeon = new Dungeon();
+        dungeon.createDungeon();
     }
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        int x = 100;
-        int y = 100;
+        int x = 0;
+        int y = 50;
 
         int currentRow = dungeon.getS().getRow();
         int currentCol = dungeon.getS().getCol();
 
         for (int row = 0; row < dungeon.getTiles().length; row++) {
             for (int col = 0; col < dungeon.getTiles()[0].length; col++) {
-                if (row == currentRow && col == currentCol) {
-                    g.drawImage(dungeon.getS().getImage(), x+10, y+10, null);
+                Tile tile = dungeon.getTiles()[row][col];
+                if (tile.isPath()){
+                    g.drawImage(tile.getImage(),x+10,y+10,null);
+                    if (row == currentRow && col == currentCol) {
+                        g.drawImage(dungeon.getS().getImage(), x+10, y+10, null);
+                    }
                 }
-                x = x + 24;
+                x += 20;
             }
-            x = 100;
-            y = y + 24;
+            x = 0;
+            y += 20;
         }
         s.searchBag();
         if(dungeon.isGameEnded()){
@@ -57,7 +61,6 @@ class WorldPanel extends JPanel implements MouseListener, KeyListener {
 
     }
     public void mousePressed(MouseEvent e) { }
-
     public void mouseReleased(MouseEvent e) { }
     public void mouseEntered(MouseEvent e) { }
     public void mouseExited(MouseEvent e) { }
