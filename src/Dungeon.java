@@ -19,11 +19,9 @@ public class Dungeon {
             for (int c = 0; c < map[0].length; c++) {
                 Tile t = new Tile(map[r][c]);
                 dungeon[r][c] = t;
-                dungeon[r][c].isPath();
                 //if dungeon[r][c] = null
                 if (!dungeon[r][c].isPath()) {
                     dungeon[r][c].setTileType(2);
-                    dungeon[r][c].isPath();
                     }
                 }
         }
@@ -41,7 +39,7 @@ public class Dungeon {
             System.exit(1);
         }
 
-        ArrayList<String> fileData = new ArrayList<String>();
+        ArrayList<String> fileData = new ArrayList<>();
         while (a.hasNextLine())
             fileData.add(a.nextLine());
 
@@ -50,17 +48,18 @@ public class Dungeon {
 
         int[][] worldData = new int[rows][cols];
 
-        for (int i = 0; i < fileData.size(); i++) {
-            String d = fileData.get(i);
-            for (int j = 0; j < d.length(); j++) {
-                if (d.charAt(j) == ',')
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                if (fileData.get(i).charAt(j) == ',') {
                     worldData[i][j] = 1;
-                if (d.charAt(j) == '.')
+                }
+                else if (fileData.get(i).charAt(j) == '.'){
                     worldData[i][j] = 0;
-                if (d.charAt(j) == '/') {
+                }
+                else if (fileData.get(i).charAt(j) == '/') {
                     worldData[i][j] = 2;
                 }
-                if (d.charAt(j) == '$') {
+                else if (fileData.get(i).charAt(j) == '$') {
                     this.s = new Swordmaster(i, j);
                 }
             }
