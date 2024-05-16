@@ -8,16 +8,15 @@ public class Swordmaster {
     private BufferedImage image;
     private int row;
     private int column;
-    private final String IMAGE_FILE = "Swordmaster/front.png";
+    private final String IMAGE_FILE = "Living/swordmaster.png";
     private ArrayList<String> inv;
     Dungeon d;
-    Bag b;
 
     public Swordmaster(int row, int col){
         this.row = row;
         this.column = col;
         image = loadImage(IMAGE_FILE);
-        b = new Bag(inv);
+        inv = new ArrayList<>();
     }
     public void searchBag(){
         for (String weapon: inv){

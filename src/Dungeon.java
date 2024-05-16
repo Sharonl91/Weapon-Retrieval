@@ -7,25 +7,26 @@ public class Dungeon {
     private Swordmaster s;
     private boolean gameEnded;
 
-    public Dungeon(){
-        createDungeon();
-        gameEnded = false;
-    }
-
-    public void createDungeon(){
-        int[][] map = getMap("background/map");
+    public Dungeon(String file){
+        int[][] map = getMap(file);
         dungeon = new Tile[map.length][map[0].length];
         for (int r = 0; r < map.length; r++) {
             for (int c = 0; c < map[0].length; c++) {
                 Tile t = new Tile(map[r][c]);
                 dungeon[r][c] = t;
-                //if dungeon[r][c] = null
-                if (!dungeon[r][c].isPath()) {
-                    dungeon[r][c].setTileType(2);
+                if (dungeon[r][c] == null){
+                    int random = (int)(Math.random()*10);
+                    if (random < 5){
+                        dungeon[r][c].setTileType(1);
                     }
+                    else {
+                        dungeon[r][c].setTileType(2);
+                    }
+                    dungeon[r][c].setPath();
                 }
+            }
         }
-        highlightPath();
+        gameEnded = false;
     }
 
     private int[][] getMap(String fileName) {
@@ -67,39 +68,6 @@ public class Dungeon {
         return worldData;
     }
 
-    private void highlightPath() {
-        boolean check = true;
-        while (check) {
-            for (Tile[] tiles : dungeon) {
-                for (int c = 0; c < dungeon[0].length; c++) {
-                    if (tiles[c].isPath()) {
-                        // Highlight the current tile
-                        tiles[c].setPath();
-                        tiles[c].setVisible();
-
-                    }
-                }
-            }
-            // Check if any more tiles need to be highlighted
-            check = false;
-            for (int r = 0; r < dungeon.length; r++) {
-                for (int c = 0; c < dungeon[0].length; c++) {
-                    if (dungeon[r][c].isPath()) {
-                        // Check if any adjacent tiles are not part of the main path
-                        if ((r > 0 && !dungeon[r - 1][c].isPath()) ||
-                                (r < dungeon.length - 1 && !dungeon[r + 1][c].isPath()) ||
-                                (c > 0 && !dungeon[r][c - 1].isPath()) ||
-                                (c < dungeon[0].length - 1 && !dungeon[r][c + 1].isPath())) {
-                            check = true;
-                            dungeon[r][c].setVisible();
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-
     public void move(String direction){
         int currentRow = s.getRow();
         int currentCol = s.getCol();
@@ -119,13 +87,13 @@ public class Dungeon {
         //going left
         if(direction.equalsIgnoreCase("A")){
             if(currentCol > 0){
-                s.setRow(currentCol - 1);
+                s.setCol(currentCol - 1);
             }
         }
         //going right
         if(direction.equalsIgnoreCase("D")){
             if(currentCol < dungeon[0].length){
-                s.setRow(currentCol + 1);
+                s.setCol(currentCol + 1);
             }
         }
     }

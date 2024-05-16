@@ -22,13 +22,14 @@ class WorldPanel extends JPanel implements MouseListener, KeyListener {
         this.addMouseListener(this);
         this.addKeyListener(this);
         this.setFocusable(true);
-        dungeon.createDungeon();
+        dungeon = new Dungeon("background/map");
+        s = new Swordmaster(0,0);
     }
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        int x = 0;
-        int y = 50;
+        int x = 150;
+        int y = 150;
 
         int currentRow = dungeon.getS().getRow();
         int currentCol = dungeon.getS().getCol();
@@ -37,14 +38,14 @@ class WorldPanel extends JPanel implements MouseListener, KeyListener {
             for (int col = 0; col < dungeon.getTiles()[0].length; col++) {
                 Tile tile = dungeon.getTiles()[row][col];
                 if (tile.isPath()){
-                    g.drawImage(tile.getImage(),x+10,y+10,null);
+                    g.drawImage(tile.getImage(),x+20,y+20,null);
                     if (row == currentRow && col == currentCol) {
-                        g.drawImage(dungeon.getS().getImage(), x+10, y+10, null);
+                        g.drawImage(dungeon.getS().getImage(), x+20, y+20, null);
                     }
                 }
                 x += 20;
             }
-            x = 0;
+            x = 150;
             y += 20;
         }
         s.searchBag();
