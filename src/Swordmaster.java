@@ -1,11 +1,12 @@
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
 public class Swordmaster {
-    private BufferedImage image;
+    private Image image;
     private int row;
     private int column;
     private final String IMAGE_FILE = "Living/swordmaster.png";
@@ -15,7 +16,7 @@ public class Swordmaster {
     public Swordmaster(int row, int col){
         this.row = row;
         this.column = col;
-        image = loadImage(IMAGE_FILE);
+        image = loadImage(IMAGE_FILE).getScaledInstance(30,30,30);
         inv = new ArrayList<>();
     }
     public void searchBag(){
@@ -26,7 +27,7 @@ public class Swordmaster {
         }
     }
 
-    public BufferedImage loadImage(String fileName) {
+    public Image loadImage(String fileName) {
         try {
             BufferedImage image;
             image = ImageIO.read(new File(fileName));
@@ -38,7 +39,7 @@ public class Swordmaster {
         }
     }
 
-    public BufferedImage getImage() {
+    public Image getImage() {
         return image;
     }
 

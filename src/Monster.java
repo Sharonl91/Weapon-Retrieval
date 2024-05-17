@@ -2,6 +2,8 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+
 public class Monster {
     Swordmaster s;
     Bag b;
@@ -13,6 +15,7 @@ public class Monster {
     private final String easy = "Monster/goblin.png";
     private final String medium = "Monster/wolf.png";
     private final String hard = "Monster/wendigo.png";
+
     public Monster(){
         row = (int)(Math.random() * 21);
         column = (int)(Math.random() * 15);
@@ -22,16 +25,22 @@ public class Monster {
     public void generateMonster() {
         int ran = (int) (Math.random() * 6) + 1;
         if (ran == 1 || ran == 2 || ran == 3 ) {
-            loadImage(easy);
+            image = loadImage(easy);
             monsterType = "E";
         }
         if (ran == 4 || ran == 5) {
-            loadImage(medium);
+            image = loadImage(medium);
             monsterType = "M";
         }
         if (ran == 6) {
-            loadImage(hard);
+            image = loadImage(hard);
             monsterType = "H";
+        }
+    }
+    public void generateMultipleMonster(int num, ArrayList<Monster> monsters) {
+        for (int i = 0; i < num; i++){
+            Monster gen = new Monster();
+            gen.generateMonster();
         }
     }
     public void encounter(){
@@ -68,11 +77,11 @@ public class Monster {
             }
             if(getMonsterType().equals("H")){
                 int r = (int)(Math.random() * 11);
-                if(r < 5){
+                if(r < 10){
                     w = new Weapon("Skyward Blade","Mythical");
                     w.obtainWeapon();
                 }
-                if(r >= 5){
+                if(r >= 10){
                     w = new Weapon("The Flute","Legendary");
                     w.obtainWeapon();
                 }
@@ -115,6 +124,10 @@ public class Monster {
 
     public String getMonsterType() {
         return monsterType;
+    }
+
+    public void setMonsterType(String monsterType) {
+        this.monsterType = monsterType;
     }
 
     @Override

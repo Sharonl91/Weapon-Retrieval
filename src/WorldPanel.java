@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
 
 class WorldPanel extends JPanel implements MouseListener, KeyListener {
@@ -14,6 +15,7 @@ class WorldPanel extends JPanel implements MouseListener, KeyListener {
     private Rectangle save;
     private Rectangle load;
     private Swordmaster s;
+    private ArrayList<Monster> m;
 
     public WorldPanel() {
         start = new Rectangle(150, 100, 200, 30);
@@ -24,11 +26,14 @@ class WorldPanel extends JPanel implements MouseListener, KeyListener {
         this.setFocusable(true);
         dungeon = new Dungeon("background/map");
         s = new Swordmaster(0,0);
+        m = new ArrayList<>();
+        Monster monster = new Monster();
+        monster.generateMultipleMonster((int)(Math.random()*10),m);
     }
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        int x = 150;
+        int x = 100;
         int y = 150;
 
         int currentRow = dungeon.getS().getRow();
@@ -38,15 +43,20 @@ class WorldPanel extends JPanel implements MouseListener, KeyListener {
             for (int col = 0; col < dungeon.getTiles()[0].length; col++) {
                 Tile tile = dungeon.getTiles()[row][col];
                 if (tile.isPath()){
-                    g.drawImage(tile.getImage(),x+20,y+20,null);
+                    g.drawImage(tile.getImage(),x+30,y+30,null);
                     if (row == currentRow && col == currentCol) {
-                        g.drawImage(dungeon.getS().getImage(), x+20, y+20, null);
+                        g.drawImage(dungeon.getS().getImage(), x+30, y+30, null);
+                    }
+                    for(int i = 0; i < m.size();i++){
+                        if(row == m.get(i).getRow() && col == m.get(i).getColumn()){
+                            g.drawImage(m.get(i).getImage(), x+30, y+30, null);
+                        }
                     }
                 }
-                x += 20;
+                x += 30;
             }
-            x = 150;
-            y += 20;
+            x = 100;
+            y += 30;
         }
         s.searchBag();
         if(dungeon.isGameEnded()){

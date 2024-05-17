@@ -15,13 +15,7 @@ public class Dungeon {
                 Tile t = new Tile(map[r][c]);
                 dungeon[r][c] = t;
                 if (dungeon[r][c] == null){
-                    int random = (int)(Math.random()*10);
-                    if (random < 5){
-                        dungeon[r][c].setTileType(1);
-                    }
-                    else {
-                        dungeon[r][c].setTileType(2);
-                    }
+                    dungeon[r][c].setTileType(0);
                     dungeon[r][c].setPath();
                 }
             }
@@ -73,26 +67,26 @@ public class Dungeon {
         int currentCol = s.getCol();
         //going up
         if(direction.equalsIgnoreCase("W")){
-            if(currentRow > 0){
+            if(currentRow > 0 && dungeon[currentRow - 1][currentCol].getTileType() == 0){
                 s.setRow(currentRow - 1);
 
             }
         }
         //going down
         if(direction.equalsIgnoreCase("S")){
-            if(currentRow < dungeon.length){
+            if(currentRow < dungeon.length && dungeon[currentRow + 1][currentCol].getTileType() == 0){
                 s.setRow(currentRow + 1);
             }
         }
         //going left
         if(direction.equalsIgnoreCase("A")){
-            if(currentCol > 0){
+            if(currentCol > 0 && dungeon[currentRow][currentCol - 1].getTileType() == 0){
                 s.setCol(currentCol - 1);
             }
         }
         //going right
         if(direction.equalsIgnoreCase("D")){
-            if(currentCol < dungeon[0].length){
+            if(currentCol < dungeon[0].length && dungeon[currentRow][currentCol + 1].getTileType() == 0){
                 s.setCol(currentCol + 1);
             }
         }

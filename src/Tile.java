@@ -13,12 +13,7 @@ public class Tile {
 
     public Tile(int tileType){
         this.tileType = tileType;
-        if(tileType == 0 || tileType == 2) {
-            path = true;
-        }
-        else {
-            path = false;
-        }
+        path = true;
         visible = false;
         this.setTileType(tileType);
     }
