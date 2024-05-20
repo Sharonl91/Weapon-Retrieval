@@ -1,4 +1,5 @@
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -6,12 +7,12 @@ import java.util.ArrayList;
 
 public class Monster {
     Swordmaster s;
-    Bag b;
     Weapon w;
-    private BufferedImage image;
+    private Image image;
     private String monsterType;
     private int row;
     private int column;
+    private int hp;
     private final String easy = "Monster/goblin.png";
     private final String medium = "Monster/wolf.png";
     private final String hard = "Monster/wendigo.png";
@@ -19,6 +20,7 @@ public class Monster {
     public Monster(){
         row = (int)(Math.random() * 21);
         column = (int)(Math.random() * 15);
+        hp = 50;
         generateMonster();
     }
 
@@ -26,21 +28,22 @@ public class Monster {
         int ran = (int) (Math.random() * 6) + 1;
         if (ran == 1 || ran == 2 || ran == 3 ) {
             image = loadImage(easy);
-            monsterType = "E";
+            setMonsterType("E");
         }
         if (ran == 4 || ran == 5) {
             image = loadImage(medium);
-            monsterType = "M";
+            setMonsterType("M");
         }
         if (ran == 6) {
             image = loadImage(hard);
-            monsterType = "H";
+            setMonsterType("H");
         }
     }
     public void generateMultipleMonster(int num, ArrayList<Monster> monsters) {
         for (int i = 0; i < num; i++){
             Monster gen = new Monster();
             gen.generateMonster();
+            monsters.add(gen);
         }
     }
     public void encounter(){
@@ -88,10 +91,12 @@ public class Monster {
             }
         }
     }
+    public void loseHP(int hp){
+        this.hp -= hp;
+        encounter();
+    }
 
-
-
-    public BufferedImage loadImage(String fileName) {
+    public Image loadImage(String fileName) {
         try {
             BufferedImage image;
             image = ImageIO.read(new File(fileName));
@@ -103,7 +108,7 @@ public class Monster {
         }
     }
 
-    public BufferedImage getImage() {
+    public Image getImage() {
         return image;
     }
 
@@ -128,6 +133,10 @@ public class Monster {
 
     public void setMonsterType(String monsterType) {
         this.monsterType = monsterType;
+    }
+
+    public int getHp() {
+        return hp;
     }
 
     @Override

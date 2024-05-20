@@ -11,13 +11,14 @@ public class Swordmaster {
     private int column;
     private final String IMAGE_FILE = "Living/swordmaster.png";
     private ArrayList<String> inv;
+    Weapon w = new Weapon("Fillet Blade","Rare");
     Dungeon d;
 
     public Swordmaster(int row, int col){
         this.row = row;
         this.column = col;
         image = loadImage(IMAGE_FILE).getScaledInstance(30,30,30);
-        inv = new ArrayList<>();
+        inv = w.getInv();
     }
     public void searchBag(){
         for (String weapon: inv){
@@ -56,6 +57,9 @@ public class Swordmaster {
 
     public void setCol(int column) {
         this.column = column;
+    }
+    public ArrayList<String> getInventory(){
+        return inv;
     }
 
     public String toString() {

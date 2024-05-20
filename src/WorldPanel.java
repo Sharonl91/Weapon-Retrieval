@@ -11,11 +11,12 @@ import java.util.ArrayList;
 
 class WorldPanel extends JPanel implements MouseListener, KeyListener {
     Dungeon dungeon;
-    private Rectangle start;
-    private Rectangle save;
-    private Rectangle load;
+    private final Rectangle start;
+    private final Rectangle save;
+    private final Rectangle load;
     private Swordmaster s;
     private ArrayList<Monster> m;
+    private Monster monster;
 
     public WorldPanel() {
         start = new Rectangle(150, 100, 200, 30);
@@ -27,7 +28,7 @@ class WorldPanel extends JPanel implements MouseListener, KeyListener {
         dungeon = new Dungeon("background/map");
         s = new Swordmaster(0,0);
         m = new ArrayList<>();
-        Monster monster = new Monster();
+        monster = new Monster();
         monster.generateMultipleMonster((int)(Math.random()*10),m);
     }
     protected void paintComponent(Graphics g) {
@@ -44,13 +45,17 @@ class WorldPanel extends JPanel implements MouseListener, KeyListener {
                 Tile tile = dungeon.getTiles()[row][col];
                 if (tile.isPath()){
                     g.drawImage(tile.getImage(),x+30,y+30,null);
+                    for (Monster monster : m) {
+                        if (row == monster.getRow() && col == monster.getColumn()) {
+                            g.drawImage(monster.getImage(), x + 30, y + 30, null);
+                            if (currentRow == monster.getRow() && currentCol == monster.getColumn()) {
+                                dealDamage();
+
+                            }
+                        }
+                    }
                     if (row == currentRow && col == currentCol) {
                         g.drawImage(dungeon.getS().getImage(), x+30, y+30, null);
-                    }
-                    for(int i = 0; i < m.size();i++){
-                        if(row == m.get(i).getRow() && col == m.get(i).getColumn()){
-                            g.drawImage(m.get(i).getImage(), x+30, y+30, null);
-                        }
                     }
                 }
                 x += 30;
@@ -69,7 +74,26 @@ class WorldPanel extends JPanel implements MouseListener, KeyListener {
         g.drawRect((int)save.getX(), (int)save.getY(), (int)save.getWidth(), (int)save.getHeight());
         g.drawString("Load game!", 580, 123);
         g.drawRect((int)load.getX(), (int)load.getY(), (int)load.getWidth(), (int)load.getHeight());
+    }
 
+    protected void dealDamage(){
+        for (Monster monster : m) {
+            if (s.getRow() == monster.getRow() && s.getCol() == monster.getColumn()) {
+                if (s.getInventory().contains("Fillet Blade")) {
+                    monster.loseHP((int) (Math.random() * monster.getHp()) - 20);
+                }
+            }
+            if (s.getRow() == monster.getRow() && s.getCol() == monster.getColumn()) {
+                if (s.getInventory().contains("The Flute")) {
+                    monster.loseHP((int) (Math.random() * monster.getHp()) - 5);
+                }
+            }
+            if (s.getRow() == monster.getRow() && s.getCol() == monster.getColumn()) {
+                if (s.getInventory().contains("Skyward Blade")) {
+                    monster.loseHP(monster.getHp());
+                }
+            }
+        }
     }
     public void mousePressed(MouseEvent e) { }
     public void mouseReleased(MouseEvent e) { }

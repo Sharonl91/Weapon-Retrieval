@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 public class Dungeon {
     private Tile[][] dungeon;
     private Swordmaster s;
+    private ArrayList<Monster> m;
     private boolean gameEnded;
 
     public Dungeon(String file){
@@ -106,5 +107,9 @@ public class Dungeon {
 
     public Swordmaster getS(){
         return s;
+    }
+
+    public ArrayList<Monster> getM() {
+        return m;
     }
 }

@@ -4,14 +4,13 @@ public class Weapon{
     private String name;
     private ArrayList<String> inv;
     private String rarity;
-    private boolean show;
-    Bag b;
 
     public Weapon(String name, String rarity) {
         this.name = name;
         this.rarity = rarity;
-        this.show = true;
+        inv = new ArrayList<>();
     }
+
     public String getRarity() {
         return rarity;
     }
@@ -26,8 +25,7 @@ public class Weapon{
     }
 
     public void obtainWeapon() {
-        inv.add(name + " " + rarity);
-        b.setInv();
+        inv.add(getName() + " " + getRarity());
     }
     public ArrayList<String> getInv(){
         return inv;
