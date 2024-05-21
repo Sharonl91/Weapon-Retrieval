@@ -27,9 +27,8 @@ class WorldPanel extends JPanel implements MouseListener, KeyListener {
         this.setFocusable(true);
         dungeon = new Dungeon("background/map");
         s = new Swordmaster(0,0);
-        m = new ArrayList<>();
         monster = new Monster();
-        monster.generateMultipleMonster((int)(Math.random()*10),m);
+        m = monster.generateMultipleMonster(10);
     }
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -108,16 +107,16 @@ class WorldPanel extends JPanel implements MouseListener, KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         String direction = String.valueOf(e.getKeyChar());
-        if (direction.equals("w")){
+        if (direction.equalsIgnoreCase("w")){
             dungeon.move("w");
         }
-        if (direction.equals("a")){
+        if (direction.equalsIgnoreCase("a")){
             dungeon.move("a");
         }
-        if (direction.equals("s")){
+        if (direction.equalsIgnoreCase("s")){
             dungeon.move("s");
         }
-        if (direction.equals("d")){
+        if (direction.equalsIgnoreCase("d")){
             dungeon.move("d");
         }
     }

@@ -16,15 +16,24 @@ public class Monster {
     private final String easy = "Monster/goblin.png";
     private final String medium = "Monster/wolf.png";
     private final String hard = "Monster/wendigo.png";
+    Dungeon d;
 
     public Monster(){
         row = (int)(Math.random() * 21);
         column = (int)(Math.random() * 15);
         hp = 50;
-        generateMonster();
+        d = new Dungeon("background/map");
+        generateType();
+        checkPath();
     }
-
-    public void generateMonster() {
+    public void checkPath(){
+        Tile[][] tiles = d.getTiles();
+        while(tiles[row][column].getTileType() == 1 || tiles[row][column].getTileType() == 2){
+            row = (int)(Math.random() * 21);
+            column = (int)(Math.random() * 15);
+        }
+    }
+    public void generateType() {
         int ran = (int) (Math.random() * 6) + 1;
         if (ran == 1 || ran == 2 || ran == 3 ) {
             image = loadImage(easy);
@@ -39,12 +48,14 @@ public class Monster {
             setMonsterType("H");
         }
     }
-    public void generateMultipleMonster(int num, ArrayList<Monster> monsters) {
+    public ArrayList<Monster> generateMultipleMonster(int num) {
+        ArrayList<Monster> monsters = new ArrayList<>();
+        Monster gen = new Monster();
         for (int i = 0; i < num; i++){
-            Monster gen = new Monster();
-            gen.generateMonster();
+            gen.generateType();
             monsters.add(gen);
         }
+        return monsters;
     }
     public void encounter(){
         if( s.getCol() == column && s.getRow() == row){
