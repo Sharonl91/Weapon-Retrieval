@@ -16,22 +16,17 @@ public class Monster {
     private final String easy = "Monster/goblin.png";
     private final String medium = "Monster/wolf.png";
     private final String hard = "Monster/wendigo.png";
-    Dungeon d;
+    Tile[][] d = new Dungeon("background/map").getTiles();
 
     public Monster(){
-        row = (int)(Math.random() * 21);
-        column = (int)(Math.random() * 15);
-        hp = 50;
-        d = new Dungeon("background/map");
-        generateType();
-        checkPath();
-    }
-    public void checkPath(){
-        Tile[][] tiles = d.getTiles();
-        while(tiles[row][column].getTileType() == 1 || tiles[row][column].getTileType() == 2){
-            row = (int)(Math.random() * 21);
-            column = (int)(Math.random() * 15);
+        row = (int)(Math.random() * 15);
+        column = (int)(Math.random() * 21);
+        while (d[row][column].getTileType() != 0){
+            row = (int)(Math.random() * 15);
+            column = (int)(Math.random() * 21);
         }
+        hp = 50;
+        generateType();
     }
     public void generateType() {
         int ran = (int) (Math.random() * 6) + 1;

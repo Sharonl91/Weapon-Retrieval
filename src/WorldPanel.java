@@ -16,7 +16,6 @@ class WorldPanel extends JPanel implements MouseListener, KeyListener {
     private final Rectangle load;
     private Swordmaster s;
     private ArrayList<Monster> m;
-    private Monster monster;
 
     public WorldPanel() {
         start = new Rectangle(150, 100, 200, 30);
@@ -27,8 +26,7 @@ class WorldPanel extends JPanel implements MouseListener, KeyListener {
         this.setFocusable(true);
         dungeon = new Dungeon("background/map");
         s = new Swordmaster(0,0);
-        monster = new Monster();
-        m = monster.generateMultipleMonster(10);
+        m = new Monster().generateMultipleMonster(10);
     }
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -45,7 +43,7 @@ class WorldPanel extends JPanel implements MouseListener, KeyListener {
                 if (tile.isPath()){
                     g.drawImage(tile.getImage(),x+30,y+30,null);
                     for (Monster monster : m) {
-                        if (row == monster.getRow() && col == monster.getColumn()) {
+                        if (monster.getRow() == row && monster.getColumn() == col) {
                             g.drawImage(monster.getImage(), x + 30, y + 30, null);
                             if (currentRow == monster.getRow() && currentCol == monster.getColumn()) {
                                 dealDamage();
