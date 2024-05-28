@@ -9,91 +9,27 @@ public class Monster {
     Swordmaster s;
     Weapon w;
     private Image image;
-    private String monsterType;
     private int row;
     private int column;
     private int hp;
-    private final String easy = "Monster/goblin.png";
-    private final String medium = "Monster/wolf.png";
-    private final String hard = "Monster/wendigo.png";
-    Tile[][] d = new Dungeon("background/map").getTiles();
+    private final String IMAGE_FILE = "Monster/wendigo.png";
 
-    public Monster(){
-        row = (int)(Math.random() * 15);
-        column = (int)(Math.random() * 21);
-        while (d[row][column].getTileType() != 0){
-            row = (int)(Math.random() * 15);
-            column = (int)(Math.random() * 21);
-        }
+    public Monster(int r, int c){
+        row = r;
+        column = c;
         hp = 50;
-        generateType();
-    }
-    public void generateType() {
-        int ran = (int) (Math.random() * 6) + 1;
-        if (ran == 1 || ran == 2 || ran == 3 ) {
-            image = loadImage(easy);
-            setMonsterType("E");
-        }
-        if (ran == 4 || ran == 5) {
-            image = loadImage(medium);
-            setMonsterType("M");
-        }
-        if (ran == 6) {
-            image = loadImage(hard);
-            setMonsterType("H");
-        }
-    }
-    public ArrayList<Monster> generateMultipleMonster(int num) {
-        ArrayList<Monster> monsters = new ArrayList<>();
-        Monster gen = new Monster();
-        for (int i = 0; i < num; i++){
-            gen.generateType();
-            monsters.add(gen);
-        }
-        return monsters;
+        image = loadImage(IMAGE_FILE);
     }
     public void encounter(){
-        if( s.getCol() == column && s.getRow() == row){
-            if(getMonsterType().equals("E")){
-                int r = (int)(Math.random() * 11);
-                if(r == 0){
-                    w = new Weapon("Skyward Blade","Mythical");
-                    w.obtainWeapon();
-                }
-                if(r > 0 && r < 3){
-                    w = new Weapon("The Flute","Legendary");
-                    w.obtainWeapon();
-                }
-                if(r >= 3){
-                    w = new Weapon("Fillet Blade","Rare");
-                    w.obtainWeapon();
-                }
+        if(s.getCol() == column && s.getRow() == row){
+            int r = (int)(Math.random() * 11);
+            if(r < 9){
+                w = new Weapon("Skyward Blade","Mythical");
+                w.obtainWeapon();
             }
-            if(getMonsterType().equals("M")){
-                int r = (int)(Math.random() * 11);
-                if(r < 3){
-                    w = new Weapon("Skyward Blade","Mythical");
-                    w.obtainWeapon();
-                }
-                if(r >= 3 && r < 7){
-                    w = new Weapon("The Flute","Legendary");
-                    w.obtainWeapon();
-                }
-                if(r >= 7){
-                    w = new Weapon("Fillet Blade","Rare");
-                    w.obtainWeapon();
-                }
-            }
-            if(getMonsterType().equals("H")){
-                int r = (int)(Math.random() * 11);
-                if(r < 10){
-                    w = new Weapon("Skyward Blade","Mythical");
-                    w.obtainWeapon();
-                }
-                if(r >= 10){
-                    w = new Weapon("The Flute","Legendary");
-                    w.obtainWeapon();
-                }
+            if(r >= 9){
+                w = new Weapon("The Flute","Legendary");
+                w.obtainWeapon();
             }
         }
     }
@@ -131,14 +67,6 @@ public class Monster {
 
     public int getColumn() {
         return column;
-    }
-
-    public String getMonsterType() {
-        return monsterType;
-    }
-
-    public void setMonsterType(String monsterType) {
-        this.monsterType = monsterType;
     }
 
     public int getHp() {

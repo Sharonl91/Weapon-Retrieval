@@ -11,22 +11,18 @@ import java.util.ArrayList;
 
 class WorldPanel extends JPanel implements MouseListener, KeyListener {
     Dungeon dungeon;
-    private final Rectangle start;
-    private final Rectangle save;
-    private final Rectangle load;
     private Swordmaster s;
     private ArrayList<Monster> m;
+    private Monster mon;
 
     public WorldPanel() {
-        start = new Rectangle(150, 100, 200, 30);
-        save = new Rectangle(350, 100, 200, 30);
-        load = new Rectangle(550, 100, 200, 30);
         this.addMouseListener(this);
         this.addKeyListener(this);
         this.setFocusable(true);
         dungeon = new Dungeon("background/map");
         s = new Swordmaster(0,0);
-        m = new Monster().generateMultipleMonster(10);
+        mon = new Monster(0,1);
+        m = new ArrayList<>();
     }
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -47,7 +43,6 @@ class WorldPanel extends JPanel implements MouseListener, KeyListener {
                             g.drawImage(monster.getImage(), x + 30, y + 30, null);
                             if (currentRow == monster.getRow() && currentCol == monster.getColumn()) {
                                 dealDamage();
-
                             }
                         }
                     }
@@ -65,12 +60,6 @@ class WorldPanel extends JPanel implements MouseListener, KeyListener {
             g.drawString("You have obtained the mythical weapon!! \n Yay -_-", 700, 150);
         }
         g.setFont(new Font("Courier New", Font.BOLD, 25));
-        g.drawString("Start game!", 170, 123);
-        g.drawRect((int)start.getX(), (int)start.getY(), (int)start.getWidth(), (int)start.getHeight());
-        g.drawString("Save game!", 380, 123);
-        g.drawRect((int)save.getX(), (int)save.getY(), (int)save.getWidth(), (int)save.getHeight());
-        g.drawString("Load game!", 580, 123);
-        g.drawRect((int)load.getX(), (int)load.getY(), (int)load.getWidth(), (int)load.getHeight());
     }
 
     protected void dealDamage(){

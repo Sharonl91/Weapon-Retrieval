@@ -5,10 +5,12 @@ import java.io.FileNotFoundException;
 public class Dungeon {
     private Tile[][] dungeon;
     private Swordmaster s;
+    private Monster mon;
     private ArrayList<Monster> m;
     private boolean gameEnded;
 
     public Dungeon(String file){
+        m = new ArrayList<>();
         int[][] map = getMap(file);
         dungeon = new Tile[map.length][map[0].length];
         for (int r = 0; r < map.length; r++) {
@@ -56,7 +58,11 @@ public class Dungeon {
                     worldData[i][j] = 2;
                 }
                 else if (fileData.get(i).charAt(j) == '$') {
-                    this.s = new Swordmaster(i, j);
+                    s = new Swordmaster(i, j);
+                }
+                else if (fileData.get(i).charAt(j) == '%') {
+                    mon = new Monster(i,j);
+                    m.add(mon);
                 }
             }
         }
