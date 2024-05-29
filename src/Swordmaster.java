@@ -7,22 +7,19 @@ import java.util.ArrayList;
 
 public class Swordmaster {
     private Image image;
-    private int row;
-    private int column;
-    private final String IMAGE_FILE = "Living/swordmaster.png";
+
+    private final String IMAGE_FILE = "Files/swordmaster.png";
     private ArrayList<String> inv;
     Weapon w = new Weapon("Fillet Blade","Rare");
     Dungeon d;
 
-    public Swordmaster(int row, int col){
-        this.row = row;
-        this.column = col;
-        image = loadImage(IMAGE_FILE).getScaledInstance(30,30,30);
+    public Swordmaster(){
+        image = loadImage(IMAGE_FILE).getScaledInstance(300,300,10);
         inv = w.getInv();
     }
     public void searchBag(){
         for (String weapon: inv){
-            if (weapon.contains("M")){
+            if (weapon.contains("Mythical")){
                 d.setGameEnded();
             }
         }
@@ -44,25 +41,11 @@ public class Swordmaster {
         return image;
     }
 
-    public int getRow() {
-        return row;
-    }
-
-    public int getCol() {
-        return column;
-    }
-    public void setRow(int row) {
-        this.row = row;
-    }
-
-    public void setCol(int column) {
-        this.column = column;
-    }
     public ArrayList<String> getInventory(){
         return inv;
     }
 
     public String toString() {
-        return "Player at " + row + "," + column;
+        return "Player equipped with " + w;
     }
 }

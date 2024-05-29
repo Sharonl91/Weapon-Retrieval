@@ -12,80 +12,58 @@ import java.util.ArrayList;
 class WorldPanel extends JPanel implements MouseListener, KeyListener {
     Dungeon dungeon;
     private Swordmaster s;
-    private ArrayList<Monster> m;
     private Monster mon;
 
     public WorldPanel() {
         this.addMouseListener(this);
         this.addKeyListener(this);
         this.setFocusable(true);
-        dungeon = new Dungeon("background/map");
-        s = new Swordmaster(0,0);
-        mon = new Monster(0,1);
-        m = new ArrayList<>();
+        dungeon = new Dungeon();
+        s = new Swordmaster();
+        mon = new Monster();
     }
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        int x = 100;
-        int y = 150;
+        int x = 10;
+        int y = 300;
 
-        int currentRow = dungeon.getS().getRow();
-        int currentCol = dungeon.getS().getCol();
+        g.drawImage(dungeon.getImage(),x+30,y+30,null);
+        g.drawImage(dungeon.getS().getImage(), x+80, y+120, null);
 
-        for (int row = 0; row < dungeon.getTiles().length; row++) {
-            for (int col = 0; col < dungeon.getTiles()[0].length; col++) {
-                Tile tile = dungeon.getTiles()[row][col];
-                if (tile.isPath()){
-                    g.drawImage(tile.getImage(),x+30,y+30,null);
-                    for (Monster monster : m) {
-                        if (monster.getRow() == row && monster.getColumn() == col) {
-                            g.drawImage(monster.getImage(), x + 30, y + 30, null);
-                            if (currentRow == monster.getRow() && currentCol == monster.getColumn()) {
-                                dealDamage();
-                            }
-                        }
-                    }
-                    if (row == currentRow && col == currentCol) {
-                        g.drawImage(dungeon.getS().getImage(), x+30, y+30, null);
-                    }
-                }
-                x += 30;
+        if (!(dungeon.isGameEnded())){
+            int random = (int)(Math.random() * 10);
+            if (random > 8){
+                g.drawImage(mon.getImage(), x + 30, y + 30, null);
+                dealDamage();
             }
-            x = 100;
-            y += 30;
         }
         s.searchBag();
         if(dungeon.isGameEnded()){
             g.drawString("You have obtained the mythical weapon!! \n Yay -_-", 700, 150);
         }
-        g.setFont(new Font("Courier New", Font.BOLD, 25));
+        g.setFont(new Font("Courier New", Font.BOLD, 50));
+
     }
 
-    protected void dealDamage(){
-        for (Monster monster : m) {
-            if (s.getRow() == monster.getRow() && s.getCol() == monster.getColumn()) {
-                if (s.getInventory().contains("Fillet Blade")) {
-                    monster.loseHP((int) (Math.random() * monster.getHp()) - 20);
-                }
-            }
-            if (s.getRow() == monster.getRow() && s.getCol() == monster.getColumn()) {
-                if (s.getInventory().contains("The Flute")) {
-                    monster.loseHP((int) (Math.random() * monster.getHp()) - 5);
-                }
-            }
-            if (s.getRow() == monster.getRow() && s.getCol() == monster.getColumn()) {
-                if (s.getInventory().contains("Skyward Blade")) {
-                    monster.loseHP(monster.getHp());
-                }
-            }
+    protected void dealDamage() {
+        if (s.getInventory().contains("Fillet Blade")) {
+            mon.loseHP((int) (Math.random() * mon.getHp()) - 20);
+        }
+        if (s.getInventory().contains("The Flute")) {
+            mon.loseHP((int) (Math.random() * mon.getHp()) - 5);
+        }
+        if (s.getInventory().contains("Skyward Blade")) {
+            mon.loseHP(mon.getHp());
         }
     }
+
     public void mousePressed(MouseEvent e) { }
     public void mouseReleased(MouseEvent e) { }
     public void mouseEntered(MouseEvent e) { }
     public void mouseExited(MouseEvent e) { }
-    public void mouseClicked(MouseEvent e) { }
+    public void mouseClicked(MouseEvent e) {
+    }
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -94,17 +72,8 @@ class WorldPanel extends JPanel implements MouseListener, KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         String direction = String.valueOf(e.getKeyChar());
-        if (direction.equalsIgnoreCase("w")){
-            dungeon.move("w");
-        }
-        if (direction.equalsIgnoreCase("a")){
-            dungeon.move("a");
-        }
-        if (direction.equalsIgnoreCase("s")){
-            dungeon.move("s");
-        }
-        if (direction.equalsIgnoreCase("d")){
-            dungeon.move("d");
+        if (direction.equalsIgnoreCase(" ")){
+            dungeon.setGameEnded();
         }
     }
 

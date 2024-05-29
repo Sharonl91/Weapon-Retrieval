@@ -12,25 +12,21 @@ public class Monster {
     private int row;
     private int column;
     private int hp;
-    private final String IMAGE_FILE = "Monster/wendigo.png";
+    private final String IMAGE_FILE = "Files/wendigo.png";
 
-    public Monster(int r, int c){
-        row = r;
-        column = c;
+    public Monster(){
         hp = 50;
         image = loadImage(IMAGE_FILE);
     }
     public void encounter(){
-        if(s.getCol() == column && s.getRow() == row){
-            int r = (int)(Math.random() * 11);
-            if(r < 9){
-                w = new Weapon("Skyward Blade","Mythical");
-                w.obtainWeapon();
-            }
-            if(r >= 9){
-                w = new Weapon("The Flute","Legendary");
-                w.obtainWeapon();
-            }
+        int r = (int)(Math.random() * 11);
+        if(r < 9){
+            w = new Weapon("Skyward Blade","Mythical");
+            w.obtainWeapon();
+        }
+        if(r >= 9){
+            w = new Weapon("The Flute","Legendary");
+            w.obtainWeapon();
         }
     }
     public void loseHP(int hp){
@@ -52,21 +48,6 @@ public class Monster {
 
     public Image getImage() {
         return image;
-    }
-
-    public void setRow(int row) {
-        this.row = row;
-    }
-
-    public void setColumn(int column) {
-        this.column = column;
-    }
-    public int getRow() {
-        return row;
-    }
-
-    public int getColumn() {
-        return column;
     }
 
     public int getHp() {
