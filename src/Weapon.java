@@ -19,7 +19,6 @@ public class Weapon{
         return name;
     }
 
-
     public String toString() {
         return rarity + " " + name;
     }

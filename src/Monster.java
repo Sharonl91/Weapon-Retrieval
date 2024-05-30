@@ -3,20 +3,17 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
+
 
 public class Monster {
-    Swordmaster s;
     Weapon w;
     private Image image;
-    private int row;
-    private int column;
     private int hp;
     private final String IMAGE_FILE = "Files/wendigo.png";
 
     public Monster(){
         hp = 50;
-        image = loadImage(IMAGE_FILE);
+        image = loadImage(IMAGE_FILE).getScaledInstance(250,250,20);
     }
     public void encounter(){
         int r = (int)(Math.random() * 11);
@@ -49,13 +46,7 @@ public class Monster {
     public Image getImage() {
         return image;
     }
-
     public int getHp() {
         return hp;
-    }
-
-    @Override
-    public String toString() {
-        return "Monster{" + ", row=" + row + ", column=" + column + '}';
     }
 }

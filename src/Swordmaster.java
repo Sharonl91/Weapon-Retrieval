@@ -14,7 +14,7 @@ public class Swordmaster {
     Dungeon d;
 
     public Swordmaster(){
-        image = loadImage(IMAGE_FILE).getScaledInstance(300,300,10);
+        image = loadImage(IMAGE_FILE).getScaledInstance(250,250,20);
         inv = w.getInv();
     }
     public void searchBag(){
@@ -40,12 +40,7 @@ public class Swordmaster {
     public Image getImage() {
         return image;
     }
-
     public ArrayList<String> getInventory(){
         return inv;
-    }
-
-    public String toString() {
-        return "Player equipped with " + w;
     }
 }

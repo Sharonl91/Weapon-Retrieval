@@ -2,13 +2,9 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.Scanner;
-import java.util.ArrayList;
 import java.io.File;
-import java.io.FileNotFoundException;
 public class Dungeon {
     private Swordmaster s;
-
     private boolean gameEnded;
     private Image image;
     private final String IMAGE_FILE = "Files/dungeon.png";
@@ -16,6 +12,7 @@ public class Dungeon {
     public Dungeon(){
         image = loadImage(IMAGE_FILE).getScaledInstance(900,600,10);
         s = new Swordmaster();
+        gameEnded = false;
     }
     public Image loadImage(String fileName) {
         try {
@@ -31,14 +28,12 @@ public class Dungeon {
     public void setGameEnded() {
         gameEnded = true;
     }
-
     public boolean isGameEnded() {
         return gameEnded;
     }
     public Image getImage() {
         return image;
     }
-
     public Swordmaster getS(){
         return s;
     }

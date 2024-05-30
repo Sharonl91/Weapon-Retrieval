@@ -6,13 +6,14 @@ import javax.swing.*;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
 
 
 class WorldPanel extends JPanel implements MouseListener, KeyListener {
     Dungeon dungeon;
     private Swordmaster s;
     private Monster mon;
+    private Rectangle start;
+    private boolean started;
 
     public WorldPanel() {
         this.addMouseListener(this);
@@ -20,29 +21,36 @@ class WorldPanel extends JPanel implements MouseListener, KeyListener {
         this.setFocusable(true);
         dungeon = new Dungeon();
         s = new Swordmaster();
-        mon = new Monster();
     }
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
         int x = 10;
-        int y = 300;
+        int y = 250;
 
-        g.drawImage(dungeon.getImage(),x+30,y+30,null);
-        g.drawImage(dungeon.getS().getImage(), x+80, y+120, null);
+        g.setFont(new Font("Courier New", Font.BOLD, 50));
+        start = new Rectangle(350,100,300,100);
+        g.drawRect(350,100,300,100);
+        g.drawString("START", 430, 175);
 
-        if (!(dungeon.isGameEnded())){
+        if (started){
+            setBackground(Color.white);
+            g.drawImage(dungeon.getImage(),x+30,y+30,null);
+            g.drawImage(dungeon.getS().getImage(), x+80, y+200, null);
             int random = (int)(Math.random() * 10);
             if (random > 8){
-                g.drawImage(mon.getImage(), x + 30, y + 30, null);
-                dealDamage();
+                mon = new Monster();
+                while(mon.getHp() > 0){
+                    g.drawImage(mon.getImage(), x + 550, y + 270, null);
+                }
             }
         }
-        s.searchBag();
         if(dungeon.isGameEnded()){
+            g.setFont(new Font("Courier New", Font.BOLD, 20));
             g.drawString("You have obtained the mythical weapon!! \n Yay -_-", 700, 150);
+            System.exit(0);
         }
-        g.setFont(new Font("Courier New", Font.BOLD, 50));
+
 
     }
 
@@ -63,6 +71,12 @@ class WorldPanel extends JPanel implements MouseListener, KeyListener {
     public void mouseEntered(MouseEvent e) { }
     public void mouseExited(MouseEvent e) { }
     public void mouseClicked(MouseEvent e) {
+        Point p = e.getPoint();
+        if(e.getButton() == 1){
+            if(start.contains(p)){
+                started = true;
+            }
+        }
     }
 
     @Override
@@ -73,7 +87,8 @@ class WorldPanel extends JPanel implements MouseListener, KeyListener {
     public void keyPressed(KeyEvent e) {
         String direction = String.valueOf(e.getKeyChar());
         if (direction.equalsIgnoreCase(" ")){
-            dungeon.setGameEnded();
+            dealDamage();
+            s.searchBag();
         }
     }
 
