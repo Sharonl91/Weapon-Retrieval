@@ -15,7 +15,7 @@ public class Monster {
         hp = 50;
         image = loadImage(IMAGE_FILE).getScaledInstance(250,250,20);
     }
-    public void encounter(){
+    public void dropLoot(){
         int r = (int)(Math.random() * 11);
         if(r < 9){
             w = new Weapon("Skyward Blade","Mythical");
@@ -28,7 +28,7 @@ public class Monster {
     }
     public void loseHP(int hp){
         this.hp -= hp;
-        encounter();
+        dropLoot();
     }
 
     public Image loadImage(String fileName) {
