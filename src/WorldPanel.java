@@ -17,6 +17,7 @@ class WorldPanel extends JPanel implements MouseListener, KeyListener {
     private Rectangle run;
     private boolean started;
     private boolean alive;
+    private String hp = "";
 
     public WorldPanel() {
         this.addMouseListener(this);
@@ -29,23 +30,14 @@ class WorldPanel extends JPanel implements MouseListener, KeyListener {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        int x = 10;
-        int y = 250;
-
         basicSetup(g);
         g.setFont(new Font("Courier New", Font.BOLD, 25));
 
         if (started){
-            setBackground(Color.white);
-            g.clearRect(start.x,start.y, start.width + 1, start.height+1);
-            g.drawString("Press the spacebar to start exploring the dungeon.", 111, 50);
-            g.drawImage(dungeon.getImage(),x+30,y+30,null);
-            g.drawImage(dungeon.getS().getImage(), x+80, y+200, null);
-
+            startGame(g);
         }
         if(dungeon.isGameEnded()){
             g.drawString("You have obtained the mythical weapon!! \n Yay -_-", 700, 150);
-            dungeon.getS().getImage().getGraphics().dispose();
             System.exit(0);
         }
     }
@@ -54,18 +46,19 @@ class WorldPanel extends JPanel implements MouseListener, KeyListener {
         int random = (int)(Math.random() * 10);
         if (random > 8){
             g.drawImage(mon.getImage(), 560, 520, null);
-            int maxHP = mon.getHp();
-            g.drawString("Enemy hp: " + mon.getHp() + "/ " + maxHP,700,300);
+
             while(alive){
                 attack = new Rectangle(250,100,200,100);
                 g.drawRect(250,100,200,100);
                 g.drawString("Attack",330,150);
+                displayHPLeft(g);
 
                 run = new Rectangle(450,100,200,100);
                 g.drawRect(450,100,200,100);
                 g.drawString("Run",530,150);
 
             }
+            refresh(g);
         }
     }
 
@@ -77,17 +70,26 @@ class WorldPanel extends JPanel implements MouseListener, KeyListener {
         g.drawRect(350,100,300,100);
         g.drawString("START", 430, 175);
     }
+    protected void startGame(Graphics g){
+        setBackground(Color.white);
+        g.clearRect(start.x,start.y, start.width + 1, start.height+1);
+        g.drawString("Press the spacebar to start exploring the dungeon.", 111, 50);
+        g.drawImage(dungeon.getImage(),40,280,null);
+        g.drawImage(dungeon.getS().getImage(), 90, 450, null);
+    }
+    protected void refresh(Graphics g){
+        startGame(g);
+        g.drawImage(mon.getImage(), 560, 520, null);
+
+    }
 
     protected void dealDamage() {
-        if (s.getInventory().contains("Fillet Blade")) {
-            mon.loseHP((int) (Math.random() * mon.getHp()) - 20);
-        }
-        if (s.getInventory().contains("The Flute")) {
-            mon.loseHP((int) (Math.random() * mon.getHp()) - 5);
-        }
-        if (s.getInventory().contains("Skyward Blade")) {
-            mon.loseHP(mon.getHp());
-        }
+      mon.loseHP((int) (Math.random() * mon.getHp()) - 5);
+    }
+    protected void displayHPLeft(Graphics g){
+        dealDamage();
+        hp = "Enemy hp: " + mon.getHp() + "/ 50";
+        g.drawString(hp,700,250);
     }
 
     public void mousePressed(MouseEvent e) { }
@@ -96,18 +98,19 @@ class WorldPanel extends JPanel implements MouseListener, KeyListener {
     public void mouseExited(MouseEvent e) { }
     public void mouseClicked(MouseEvent e) {
         Point p = e.getPoint();
-        if(e.getButton() == 1){
-            if(start.contains(p)){
+        if(e.getButton() == 1) {
+            if (start.contains(p)) {
                 started = true;
             }
             if(attack.contains(p)){
-                dealDamage();
+                displayHPLeft(getGraphics());
                 if(mon.getHp() < 0){
                     alive = false;
                 }
             }
             if(run.contains(p)){
-                mon.getImage().getGraphics().dispose();
+                hp = "";
+                alive = false;
             }
         }
 
