@@ -14,21 +14,22 @@ public class Monster {
     public Monster(){
         hp = 50;
         image = loadImage(IMAGE_FILE).getScaledInstance(250,250,20);
+        generateWeapon();
     }
-    public void dropLoot(){
+    public void generateWeapon(){
         int r = (int)(Math.random() * 11);
         if(r < 9){
             w = new Weapon("Skyward Blade","Mythical");
-            w.obtainWeapon();
         }
         if(r >= 9){
             w = new Weapon("The Flute","Legendary");
-            w.obtainWeapon();
         }
     }
     public void loseHP(int hp){
         this.hp -= hp;
-        dropLoot();
+        if (this.hp < 0){
+            this.hp = 0;
+        }
     }
 
     public Image loadImage(String fileName) {
@@ -48,5 +49,9 @@ public class Monster {
     }
     public int getHp() {
         return hp;
+    }
+
+    public Weapon getW() {
+        return w;
     }
 }

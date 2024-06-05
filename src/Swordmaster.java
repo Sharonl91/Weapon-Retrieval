@@ -9,17 +9,19 @@ public class Swordmaster {
     private Image image;
 
     private final String IMAGE_FILE = "Files/swordmaster.png";
-    private ArrayList<String> inv;
-    Weapon w = new Weapon("Fillet Blade","Rare");
+    private ArrayList<Weapon> inv;
+    Weapon w;
     Dungeon d;
 
     public Swordmaster(){
         image = loadImage(IMAGE_FILE).getScaledInstance(250,250,20);
-        inv = w.getInv();
+        inv = new ArrayList<>();
+        w = new Weapon("Fillet Blade","Rare");
+        obtainWeapon(w);
     }
     public void searchBag(){
-        for (String weapon: inv){
-            if (weapon.contains("Mythical")){
+        for (int i = 0; i < inv.size(); i++){
+            if (inv.get(i).getRarity().contains("Mythical")){
                 d.setGameEnded();
             }
         }
@@ -36,11 +38,14 @@ public class Swordmaster {
             return null;
         }
     }
+    public void obtainWeapon(Weapon w) {
+        inv.add(w);
+    }
 
     public Image getImage() {
         return image;
     }
-    public ArrayList<String> getInventory(){
+    public ArrayList<Weapon> getInventory(){
         return inv;
     }
 }
