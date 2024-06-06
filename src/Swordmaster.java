@@ -12,17 +12,20 @@ public class Swordmaster {
     private ArrayList<Weapon> inv;
     Weapon w;
     Dungeon d;
+    private boolean found;
 
     public Swordmaster(){
         image = loadImage(IMAGE_FILE).getScaledInstance(250,250,20);
         inv = new ArrayList<>();
         w = new Weapon("Fillet Blade","Rare");
         obtainWeapon(w);
+        found = false;
     }
     public void searchBag(){
         for (int i = 0; i < inv.size(); i++){
             if (inv.get(i).getRarity().contains("Mythical")){
                 d.setGameEnded();
+                found = true;
             }
         }
     }
@@ -48,4 +51,5 @@ public class Swordmaster {
     public ArrayList<Weapon> getInventory(){
         return inv;
     }
+    public boolean isFound() {return found;}
 }

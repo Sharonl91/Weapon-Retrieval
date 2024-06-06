@@ -10,8 +10,8 @@ import java.awt.event.KeyEvent;
 
 class WorldPanel extends JPanel implements MouseListener, KeyListener {
     Dungeon dungeon;
-    private Swordmaster s;
-    private Monster mon;
+    Swordmaster s;
+    Monster mon;
     private Rectangle start;
     private Rectangle attack;
     private Rectangle run;
@@ -19,7 +19,10 @@ class WorldPanel extends JPanel implements MouseListener, KeyListener {
     private boolean alive = false;
     private boolean atk = false;
     private boolean ran = false;
+    private boolean spawned = false;
     private String hp = "";
+    private int hpValue = 50;
+    private int numOfMonsterEncountered = 0;
 
     public WorldPanel() {
         this.addMouseListener(this);
@@ -27,67 +30,81 @@ class WorldPanel extends JPanel implements MouseListener, KeyListener {
         this.setFocusable(true);
         dungeon = new Dungeon();
         s = new Swordmaster();
+        mon = new Monster();
+        hp = "Enemy hp: " + hpValue + "/ 50";
     }
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
         basicSetup(g);
         g.setFont(new Font("Courier New", Font.BOLD, 25));
-
         if (started){
             setBackground(Color.white);
             g.clearRect(start.x,start.y, start.width + 1, start.height+1);
             g.drawString("Press the spacebar to start exploring the dungeon.", 111, 50);
-            g.drawImage(dungeon.getImage(),40,280,null);
-            g.drawImage(dungeon.getS().getImage(), 90, 450, null);
+            g.drawImage(dungeon.getImage(),30,80,null);
+            g.drawImage(dungeon.getS().getImage(), 90, 150, null);
         }
         if(dungeon.isGameEnded()){
-            g.drawString("You have obtained the mythical weapon: Skyward Blade \nYay -_-", 700, 150);
-            try {
-                wait(2000);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+            if(s.isFound()) {
+                g.drawString("You have obtained the mythical weapon: Skyward Blade \nYay -_-",700, 150);
             }
-            System.exit(0);
+            else {
+                g.drawString("The dungeon collapsed", 700, 150);}
         }
     }
     private void next(Graphics g){
-        for (int i = 0; i < 5; i ++ ){
-            mon = new Monster();
+        g.setFont(new Font("Courier New", Font.BOLD, 25));
+        if (numOfMonsterEncountered < 5){
             int random = (int)(Math.random() * 10);
-            if (random > 8) {
-                g.drawImage(mon.getImage(), 560, 520, null);
+            if (random > 7) {
+                spawned = true;
+            }
+            if (spawned){
                 alive = true;
-
+                g.drawImage(mon.getImage(), 560, 320, null);
                 while (alive) {
-                    attack = new Rectangle(250, 100, 200, 100);
-                    g.drawRect(250, 100, 200, 100);
-                    g.drawString("Attack", 330, 150);
+                    g.drawRect(250, 700, 200, 100);
+                    g.drawString("Attack", 300, 750);
 
-                    run = new Rectangle(450, 100, 200, 100);
-                    g.drawRect(450, 100, 200, 100);
-                    g.drawString("Run", 530, 150);
+                    g.drawRect(450, 700, 200, 100);
+                    g.drawString("Run", 520, 750);
+
+                    g.drawString(hp,700,710);
 
                     if (atk){
                         dealDamage();
-                        hp = "Enemy hp: " + mon.getHp() + "/ 50";
-                        setBackground(Color.white);
-                        g.fillRect(650,150,200,50);
+                        hpValue = mon.getHp();
+                        g.fillRect(250,700,400,100);
                         g.drawString(hp,700,250);
+                        atk = false;
                     }
                     if (ran){
-                        g.clearRect(250,100,651,201);
+                        g.fillRect(250,700,400,100);
+                        ran = false;
+                        spawned = false;
+                        alive = false;
+                    }
+                    if(hpValue == 0){
+                        s.obtainWeapon(mon.getW());
+                        mon = new Monster();
+                        hpValue = 50;
                     }
                 }
             }
+            numOfMonsterEncountered++;
+            s.searchBag();
+        }
+        if(numOfMonsterEncountered >= 5){
+            dungeon.setGameEnded();
         }
     }
 
     protected void basicSetup(Graphics g){
         g.setFont(new Font("Courier New", Font.BOLD, 50));
         start = new Rectangle(350,100,300,100);
-        attack = new Rectangle();
-        run = new Rectangle();
+        attack = new Rectangle(250, 700, 200, 100);
+        run = new Rectangle(450, 700, 200, 100);
         g.drawRect(350,100,300,100);
         g.drawString("START", 430, 175);
     }
@@ -124,7 +141,7 @@ class WorldPanel extends JPanel implements MouseListener, KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         String direction = String.valueOf(e.getKeyChar());
-        if (direction.equalsIgnoreCase(" ")){
+        if (started && direction.equalsIgnoreCase(" ")){
             Graphics g = super.getGraphics();
             next(g);
         }
