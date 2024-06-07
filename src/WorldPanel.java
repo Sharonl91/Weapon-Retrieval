@@ -13,16 +13,13 @@ class WorldPanel extends JPanel implements MouseListener, KeyListener {
     Swordmaster s;
     Monster mon;
     private Rectangle start;
-    private Rectangle attack;
-    private Rectangle run;
+    private Rectangle slash;
+    private Rectangle chop;
     private boolean started = false;
-    private boolean alive = false;
-    private boolean atk = false;
-    private boolean ran = false;
     private boolean spawned = false;
-    private String hp = "";
+    private String hp;
     private int hpValue = 50;
-    private int numOfMonsterEncountered = 0;
+    private int turns = 0;
 
     public WorldPanel() {
         this.addMouseListener(this);
@@ -47,82 +44,67 @@ class WorldPanel extends JPanel implements MouseListener, KeyListener {
         }
         if(dungeon.isGameEnded()){
             if(s.isFound()) {
-                g.drawString("You have obtained the mythical weapon: Skyward Blade \nYay -_-",700, 150);
+                g.drawString("You have obtained the mythical weapon: Skyward Blade",200, 750);
+                g.drawString("Yay -_-",200, 800);
             }
             else {
-                g.drawString("The dungeon collapsed", 700, 150);}
+                g.drawString("The dungeon collapsed >_<", 200, 750);
+                g.drawString("You were buried for eternity", 200, 800);
+            }
         }
     }
-    private void next(Graphics g){
+    private void next(Graphics g) {
         g.setFont(new Font("Courier New", Font.BOLD, 25));
-        if (numOfMonsterEncountered < 5){
-            int random = (int)(Math.random() * 10);
-            if (random > 7) {
-                spawned = true;
-            }
+        int random = (int) (Math.random() * 10);
+        if (random > 7) {
+            spawned = true;
             if (spawned){
-                alive = true;
                 g.drawImage(mon.getImage(), 560, 320, null);
-                while (alive) {
-                    g.drawRect(250, 700, 200, 100);
-                    g.drawString("Attack", 300, 750);
-
-                    g.drawRect(450, 700, 200, 100);
-                    g.drawString("Run", 520, 750);
-
-                    g.drawString(hp,700,710);
-
-                    if (atk){
-                        dealDamage();
-                        hpValue = mon.getHp();
-                        g.fillRect(250,700,400,100);
-                        g.drawString(hp,700,250);
-                        atk = false;
-                    }
-                    if (ran){
-                        g.fillRect(250,700,400,100);
-                        ran = false;
-                        spawned = false;
-                        alive = false;
-                    }
-                    if(hpValue == 0){
-                        s.obtainWeapon(mon.getW());
-                        mon = new Monster();
-                        hpValue = 50;
-                    }
+//                g.drawRect(250, 700, 200, 100);
+//                g.drawString("Slash", 300, 750);
+//                g.drawRect(450, 700, 200, 100);
+//                g.drawString("Chop", 520, 750);
+//                g.drawString(hp, 700, 710);
+                if (hpValue == 0) {
+                    turns++;
+                    s.obtainWeapon(mon.getW());
+                    s.searchBag();
+                    mon = new Monster();
+                    hpValue = mon.getHp();
+                }
+                if (turns >= 5) {
+                    dungeon.setGameEnded();
                 }
             }
-            numOfMonsterEncountered++;
-            s.searchBag();
-        }
-        if(numOfMonsterEncountered >= 5){
-            dungeon.setGameEnded();
         }
     }
+
+
 
     protected void basicSetup(Graphics g){
         g.setFont(new Font("Courier New", Font.BOLD, 50));
         start = new Rectangle(350,100,300,100);
-        attack = new Rectangle(250, 700, 200, 100);
-        run = new Rectangle(450, 700, 200, 100);
+        slash = new Rectangle(250, 700, 200, 100);
+        chop = new Rectangle(450, 700, 200, 100);
         g.drawRect(350,100,300,100);
         g.drawString("START", 430, 175);
     }
-    protected void dealDamage() {
-      mon.loseHP((int) (Math.random() * mon.getHp()) - 5);
+    protected void dealDamage(int choice) {
+        if (choice == 1){
+            int damage = (int) (Math.random() * mon.getHp()) - 20;
+            mon.setHp(hpValue - damage);
+            hpValue = mon.getHp();
+        }
+        if(choice == 2){
+            int damage = (int) (Math.random() * mon.getHp()) - 5;
+            mon.setHp(hpValue - damage);
+            hpValue = mon.getHp();
+        }
     }
 
     public void mousePressed(MouseEvent e) {
         Point p = e.getPoint();
         if (e.getButton() == 1){
-            if(attack.contains(p)){
-                atk = true;
-            }
-            if(run.contains(p)){
-                hp = "";
-                alive = false;
-                ran = true;
-            }
             if (start.contains(p)){
                 started = true;
             }
@@ -140,11 +122,21 @@ class WorldPanel extends JPanel implements MouseListener, KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
+        Graphics g = super.getGraphics();
         String direction = String.valueOf(e.getKeyChar());
         if (started && direction.equalsIgnoreCase(" ")){
-            Graphics g = super.getGraphics();
             next(g);
         }
+//        if (started && direction.equalsIgnoreCase("q")){
+//            dealDamage(1);
+//            g.fillRect(250,700,400,100);
+//            g.drawString(hp,700,250);
+//        }
+//        if (started && direction.equalsIgnoreCase("e")){
+//            dealDamage(2);
+//            g.fillRect(250,700,400,100);
+//            g.drawString(hp,700,250);
+//        }
     }
 
     @Override

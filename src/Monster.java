@@ -25,12 +25,6 @@ public class Monster {
             w = new Weapon("The Flute","Legendary");
         }
     }
-    public void loseHP(int hp){
-        this.hp -= hp;
-        if (this.hp < 0){
-            this.hp = 0;
-        }
-    }
 
     public Image loadImage(String fileName) {
         try {
@@ -51,6 +45,9 @@ public class Monster {
         return hp;
     }
 
+    public void setHp(int hp) {
+        this.hp = hp;
+    }
     public Weapon getW() {
         return w;
     }
