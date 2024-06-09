@@ -14,7 +14,7 @@ public class Monster {
     public Monster(){
         hp = 50;
         image = loadImage(IMAGE_FILE).getScaledInstance(250,250,20);
-        generateWeapon();
+        w = new Weapon("Skyward Blade","Mythical");
     }
     public void generateWeapon(){
         int r = (int)(Math.random() * 11);

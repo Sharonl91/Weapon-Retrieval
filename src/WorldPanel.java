@@ -13,13 +13,7 @@ class WorldPanel extends JPanel implements MouseListener, KeyListener {
     Swordmaster s;
     Monster mon;
     private Rectangle start;
-    private Rectangle slash;
-    private Rectangle chop;
     private boolean started = false;
-    private boolean spawned = false;
-    private String hp;
-    private int hpValue = 50;
-    private int turns = 0;
 
     public WorldPanel() {
         this.addMouseListener(this);
@@ -28,7 +22,6 @@ class WorldPanel extends JPanel implements MouseListener, KeyListener {
         dungeon = new Dungeon();
         s = new Swordmaster();
         mon = new Monster();
-        hp = "Enemy hp: " + hpValue + "/ 50";
     }
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -41,6 +34,7 @@ class WorldPanel extends JPanel implements MouseListener, KeyListener {
             g.drawString("Press the spacebar to start exploring the dungeon.", 111, 50);
             g.drawImage(dungeon.getImage(),30,80,null);
             g.drawImage(dungeon.getS().getImage(), 90, 150, null);
+            g.drawImage(mon.getImage(), 560, 320, null);
         }
         if(dungeon.isGameEnded()){
             if(s.isFound()) {
@@ -53,53 +47,21 @@ class WorldPanel extends JPanel implements MouseListener, KeyListener {
             }
         }
     }
-    private void next(Graphics g) {
-        g.setFont(new Font("Courier New", Font.BOLD, 25));
-        int random = (int) (Math.random() * 10);
-        if (random > 7) {
-            spawned = true;
-            if (spawned){
-                g.drawImage(mon.getImage(), 560, 320, null);
-//                g.drawRect(250, 700, 200, 100);
-//                g.drawString("Slash", 300, 750);
-//                g.drawRect(450, 700, 200, 100);
-//                g.drawString("Chop", 520, 750);
-//                g.drawString(hp, 700, 710);
-                if (hpValue == 0) {
-                    turns++;
-                    s.obtainWeapon(mon.getW());
-                    s.searchBag();
-                    mon = new Monster();
-                    hpValue = mon.getHp();
-                }
-                if (turns >= 5) {
-                    dungeon.setGameEnded();
-                }
-            }
+
+    private void next() {
+        int damage = (int) (Math.random() * mon.getHp()) - 5;
+        mon.setHp(mon.getHp() - damage);
+        if(mon.getHp() <= 0){
+            s.obtainWeapon(mon.getW());
+            s.searchBag();
         }
     }
-
-
 
     protected void basicSetup(Graphics g){
         g.setFont(new Font("Courier New", Font.BOLD, 50));
         start = new Rectangle(350,100,300,100);
-        slash = new Rectangle(250, 700, 200, 100);
-        chop = new Rectangle(450, 700, 200, 100);
         g.drawRect(350,100,300,100);
         g.drawString("START", 430, 175);
-    }
-    protected void dealDamage(int choice) {
-        if (choice == 1){
-            int damage = (int) (Math.random() * mon.getHp()) - 20;
-            mon.setHp(hpValue - damage);
-            hpValue = mon.getHp();
-        }
-        if(choice == 2){
-            int damage = (int) (Math.random() * mon.getHp()) - 5;
-            mon.setHp(hpValue - damage);
-            hpValue = mon.getHp();
-        }
     }
 
     public void mousePressed(MouseEvent e) {
@@ -122,21 +84,10 @@ class WorldPanel extends JPanel implements MouseListener, KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        Graphics g = super.getGraphics();
         String direction = String.valueOf(e.getKeyChar());
         if (started && direction.equalsIgnoreCase(" ")){
-            next(g);
+            next();
         }
-//        if (started && direction.equalsIgnoreCase("q")){
-//            dealDamage(1);
-//            g.fillRect(250,700,400,100);
-//            g.drawString(hp,700,250);
-//        }
-//        if (started && direction.equalsIgnoreCase("e")){
-//            dealDamage(2);
-//            g.fillRect(250,700,400,100);
-//            g.drawString(hp,700,250);
-//        }
     }
 
     @Override
